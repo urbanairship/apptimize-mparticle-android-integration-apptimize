@@ -53,8 +53,24 @@ public class ApptimizeKit
             throw new IllegalArgumentException(APP_MP_KEY);
         }
         final ApptimizeOptions options = buildApptimizeOptions(settings);
-        Apptimize.setup(context, appKey, options);
+        createApptimizeOnMainThread( appKey, options, context );
         return null;
+    }
+
+    private void createApptimizeOnMainThread( final String appKey, final ApptimizeOptions options, final Context context ) {
+        final boolean isMainThread = Looper.myLooper() == Looper.getMainLooper();
+        if( isMainThread ) {
+            Apptimize.setup( context, appKey, options );
+        } else {
+            new Handler( context.getMainLooper() ).post(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        Apptimize.setup( context, appKey, options );
+                    }
+                }
+            );
+        }
     }
 
     private ApptimizeOptions buildApptimizeOptions(final Map<String, String> settings) {
