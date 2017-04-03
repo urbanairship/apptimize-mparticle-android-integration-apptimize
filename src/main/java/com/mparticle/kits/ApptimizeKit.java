@@ -60,6 +60,7 @@ public class ApptimizeKit
     private ApptimizeOptions buildApptimizeOptions(final Map<String, String> settings) {
         ApptimizeOptions o = new ApptimizeOptions();
         o.setThirdPartyEventImportingEnabled(false);
+        o.setThirdPartyEventExportingEnabled(false);
         configureApptimizeUpdateMetaDataTimeout(o, settings);
         configureApptimizeDeviceName(o, settings);
         configureApptimizeDeveloperModeDisabled(o, settings);
