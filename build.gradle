@@ -15,5 +15,5 @@ repositories {
 }
 
 dependencies {
-    compile 'com.apptimize:apptimize-android:2.12.13'
+    compile 'com.apptimize:apptimize-android:2.13.0'
 }
