@@ -12,6 +12,7 @@ import com.apptimize.Apptimize.OnExperimentRunListener;
 import com.mparticle.MPEvent;
 import com.mparticle.MParticle;
 import com.mparticle.commerce.CommerceEvent;
+import com.mparticle.identity.MParticleUser;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -273,7 +274,10 @@ public class ApptimizeKit
             }
         }
 
-        MParticle.getInstance().setUserAttributeList("Apptimize experiment", participatedExperiments);
+        MParticleUser user = MParticle.getInstance().Identity().getCurrentUser();
+        if (user != null) {
+            user.setUserAttributeList("Apptimize experiment", participatedExperiments);
+        }
 
         Map<String, String> eventInfo = new java.util.HashMap<String, String>(5);
 
