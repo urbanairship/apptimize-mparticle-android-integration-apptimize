@@ -221,7 +221,7 @@ public class ApptimizeKit
     }
 
     /**
-     * @param valueTotal is iqgnored by the Apptimize kit.
+     * @param valueTotal is ignored by the Apptimize kit.
      * @param contextInfo is ignored by the Apptimize kit.
      */
     @Override
@@ -231,12 +231,17 @@ public class ApptimizeKit
         return toMessageList(createReportingMessage(ReportingMessage.MessageType.COMMERCE_EVENT));
     }
 
-    /**
-     * Not supported by the Apptimize kit.
-     */
     @Override
-    public List<ReportingMessage> logEvent(CommerceEvent event) {
-        return null;
+    public List<ReportingMessage> logEvent(CommerceEvent commerceEvent) {
+        List<MPEvent> customEvents = CommerceEventUtils.expand(commerceEvent);
+        if (customEvents.size() == 0) {
+            return null;
+        }
+
+        for (MPEvent event : customEvents) {
+            Apptimize.track(event.getEventName());
+        }
+        return toMessageList(ReportingMessage.fromEvent(this, commerceEvent));
     }
 
     /**
