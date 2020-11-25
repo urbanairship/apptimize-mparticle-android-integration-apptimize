@@ -17,7 +17,7 @@ This repository contains the [Apptimize](https://www.apptimize.com/) integration
 
     ```groovy
     dependencies {
-        compile 'com.mparticle:android-apptimize-kit:5+'
+        implementation 'com.mparticle:android-apptimize-kit:5+'
     }
     ```
 3. Follow the mParticle Android SDK [quick-start](https://github.com/mParticle/mparticle-android-sdk), then rebuild and launch your app, and verify that you see `"Apptimize detected"` in the output of `adb logcat`.
