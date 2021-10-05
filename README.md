@@ -9,7 +9,7 @@ This repository contains the [Apptimize](https://www.apptimize.com/) integration
     ```groovy
     repositories {
         maven {
-            url 'http://maven.apptimize.com/artifactory/repo'
+            url 'https://maven.apptimize.com/artifactory/repo'
         }
     }
     ```
@@ -25,8 +25,8 @@ This repository contains the [Apptimize](https://www.apptimize.com/) integration
 
 ### Documentation
 
-[Apptimize integration](http://docs.mparticle.com/?java#apptimize)
+[Apptimize integration](https://docs.mparticle.com/?java#apptimize)
 
 ### License
 
-[Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+[Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)
