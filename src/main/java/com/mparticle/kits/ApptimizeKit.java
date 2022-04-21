@@ -25,7 +25,7 @@ public class ApptimizeKit
         implements KitIntegration.AttributeListener,
         KitIntegration.EventListener,
         KitIntegration.CommerceListener,
-        OnExperimentRunListener {
+        Apptimize.OnTestRunListener {
 
     private static final String APP_MP_KEY = "appKey";
     private static final String UPDATE_METDATA_TIMEOUT_MP_KEY = "metadataTimeout";
@@ -61,7 +61,7 @@ public class ApptimizeKit
         final ApptimizeOptions options = buildApptimizeOptions(settings);
         Apptimize.setup(context, appKey, options);
         if (Boolean.parseBoolean(settings.get(TRACK_EXPERIMENTS))) {
-            Apptimize.setOnExperimentRunListener(this);
+            Apptimize.setOnTestRunListener(this);
         }
         return null;
     }
@@ -259,8 +259,8 @@ public class ApptimizeKit
     }
 
     @Override
-    public void onExperimentRun(String experimentName, String variantName, boolean firstRun) {
-        if (!firstRun) {
+    public void onTestRun(ApptimizeTestInfo apptimizeTestInfo, Apptimize.IsFirstTestRun isFirstTestRun) {
+        if (isFirstTestRun != Apptimize.IsFirstTestRun.YES) {
             return;
         }
 
@@ -286,24 +286,17 @@ public class ApptimizeKit
 
         Map<String, String> eventInfo = new java.util.HashMap<String, String>(5);
 
-        Map<Long, Map<String, Object>> variants = Apptimize.getVariants();
-        if (variants != null) {
-            for (java.util.Map.Entry<Long, Map<String, Object>> entry : variants.entrySet()) {
-                if (variantName == entry.getValue().get("variantName")) {
-                    eventInfo.put("VariationID", entry.getValue().get("variantId").toString());
-                    eventInfo.put("ID", entry.getValue().get("experimentId").toString());
-                    break;
-                }
-            }
-        }
-
-        eventInfo.put("Name", experimentName);
-        eventInfo.put("Variation", variantName);
-        eventInfo.put("Name and Variation", experimentName + "-" + variantName);
+        ApptimizeTestInfo test = apptimizeTestInfo;
+        eventInfo.put("VariationID", String.valueOf(test.getEnrolledVariantId()));
+        eventInfo.put("ID", String.valueOf(test.getTestId()));
+        eventInfo.put("Name", test.getTestName());
+        eventInfo.put("Variation", test.getEnrolledVariantName());
+        eventInfo.put("Name and Variation", test.getTestName() + "-"
+                + test.getEnrolledVariantName());
 
         MPEvent event = new MPEvent.Builder("Apptimize experiment", MParticle.EventType.Other)
-                                   .info(eventInfo)
-                                   .build();
+                .customAttributes(eventInfo)
+                .build();
         MParticle.getInstance().logEvent(event);
     }
 }
