@@ -16,6 +16,12 @@ buildscript {
 
 apply plugin: 'com.mparticle.kit'
 
+android {
+    defaultConfig {
+        minSdk = 16
+    }
+}
+
 repositories {
     maven { url 'https://maven.apptimize.com/artifactory/repo' }
 }
