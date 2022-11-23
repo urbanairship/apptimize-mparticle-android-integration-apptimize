@@ -101,8 +101,9 @@ class ApptimizeKit : KitIntegration(), AttributeListener, KitIntegration.EventLi
 
     private fun configureApptimizeLogLevel(o: ApptimizeOptions, settings: Map<String, String>) {
         try {
-            val l = settings[LOG_LEVEL_MP_KEY]?.let { ApptimizeOptions.LogLevel.valueOf(it) }
-            o.logLevel = l
+            val l = settings[LOG_LEVEL_MP_KEY]
+                    ?.let { ApptimizeOptions.LogLevel.valueOf(it) }
+                    ?.let { o.logLevel = it }
         } catch (iae: IllegalArgumentException) {
         } catch (npe: NullPointerException) {
         }
