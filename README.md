@@ -25,7 +25,7 @@ This repository contains the [Apptimize](https://www.apptimize.com/) integration
 
 ### Documentation
 
-[Apptimize integration](https://docs.mparticle.com/?java#apptimize)
+[Apptimize integration](https://docs.mparticle.com/integrations/apptimize)
 
 ### License
 
